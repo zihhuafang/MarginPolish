@@ -185,7 +185,7 @@ void annotateHelenFeaturesWithTruth(stList *features, HelenFeatureType featureTy
                                     RleString *trueRefRleString, int64_t *firstMatchedFeaure,
                                     int64_t *lastMatchedFeature);
 
-void printMEAAlignment(char *X, char *Y, int64_t lX, int64_t lY, stList *alignedPairs, uint64_t *Xrl, uint64_t *Yrl);
+void printMEAAlignment(char *X, char *Y, int64_t lX, int64_t lY, stList *alignedPairs, uint8_t *Xrl, uint8_t *Yrl);
 void printMEAAlignment2(RleString *X, RleString *Y, stList *alignedPairs);
 
 void writeSimpleWeightHelenFeaturesHDF5(Alphabet *alphabet, HelenFeatureHDF5FileInfo *hdf5FileInfo, char *outputFileBase,

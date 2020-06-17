@@ -886,7 +886,7 @@ void poa_estimatePhasedBasesUsingBayesianModel(Poa *poa, stList *bamChunkReads, 
 // Data structure for representing RLE strings
 struct _rleString {
 	char *rleString; //Run-length-encoded (RLE) string
-	uint64_t *repeatCounts; // Count of repeat for each position in rleString
+	uint8_t *repeatCounts; // Count of repeat for each position in rleString
 	uint64_t length; // Length of the rleString
 	uint64_t nonRleLength; // Length of the expanded, non-rle string
 };

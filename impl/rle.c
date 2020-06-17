@@ -18,14 +18,14 @@ RleString *rleString_construct(char *str) {
 
     // Allocate
     rleString->rleString = st_calloc(rleString->length + 1, sizeof(char));
-    rleString->repeatCounts = st_calloc(rleString->length, sizeof(uint64_t));
+    rleString->repeatCounts = st_calloc(rleString->length, sizeof(uint8_t));
 
     // Fill out
     uint64_t j = 0, k = 1;
     for (uint64_t i = 0; i < rleString->nonRleLength; i++) {
         if (i + 1 == rleString->nonRleLength || str[i] != str[i + 1]) {
             rleString->rleString[j] = str[i];
-            rleString->repeatCounts[j++] = k;
+            rleString->repeatCounts[j++] = (uint8_t) k;
             k = 1;
         } else {
             k++;
@@ -50,7 +50,7 @@ RleString *rleString_constructPreComputed(char *rleChars, const uint8_t *rleCoun
 
     // Allocate
     rleString->rleString = stString_copy(rleChars);
-    rleString->repeatCounts = st_calloc(rleString->length, sizeof(int64_t));
+    rleString->repeatCounts = st_calloc(rleString->length, sizeof(uint8_t));
 
     // Fill out
     for (int64_t r = 0; r < rleString->length; r++) {
@@ -69,7 +69,7 @@ RleString *rleString_construct_no_rle(char *string) {
 
     // Allocate
     rleString->rleString = stString_copy(string);
-    rleString->repeatCounts = st_calloc(rleString->length, sizeof(uint64_t));
+    rleString->repeatCounts = st_calloc(rleString->length, sizeof(uint8_t));
 
     // Fill out repeat counts
     for (uint64_t i = 0; i < rleString->length; i++) {
@@ -92,7 +92,7 @@ RleString *rleString_copySubstring(RleString *rleString, uint64_t start, uint64_
 
     // Copy repeat count substring and calculate non-rle length
     rleSubstring->nonRleLength = 0;
-    rleSubstring->repeatCounts = st_calloc(length, sizeof(uint64_t));
+    rleSubstring->repeatCounts = st_calloc(length, sizeof(uint8_t));
     for (uint64_t i = 0; i < rleSubstring->length; i++) {
         rleSubstring->repeatCounts[i] = rleString->repeatCounts[i + start];
         rleSubstring->nonRleLength += rleSubstring->repeatCounts[i];
@@ -104,7 +104,7 @@ RleString *rleString_copySubstring(RleString *rleString, uint64_t start, uint64_
 void rleString_print(RleString *rleString, FILE *f) {
     fprintf(f, "%s -- ", rleString->rleString);
     for (int64_t i = 0; i < rleString->length; i++) {
-        fprintf(f, "%" PRIi64 " ", rleString->repeatCounts[i]);
+        fprintf(f, "%d ", rleString->repeatCounts[i]);
     }
 }
 
@@ -156,7 +156,7 @@ char *rleString_expand(RleString *rleString) {
 
 void rleString_rotateString(RleString *str, int64_t rotationLength, bool mergeEnds) {
     char rotatedString[str->length];
-    uint64_t rotatedRepeatCounts[str->length];
+    uint8_t rotatedRepeatCounts[str->length];
     for (int64_t i = 0; i < str->length; i++) {
         rotatedString[(i + rotationLength) % str->length] = str->rleString[i];
         rotatedRepeatCounts[(i + rotationLength) % str->length] = str->repeatCounts[i];

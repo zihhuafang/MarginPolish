@@ -476,8 +476,8 @@ double calculateAlignIdentity(RleString *XRLE, RleString *YRLE, stList *alignedP
     }
     char *X = XRLE->rleString;
     char *Y = YRLE->rleString;
-    uint64_t *Xrl = XRLE->repeatCounts;
-    uint64_t *Yrl = YRLE->repeatCounts;
+    uint8_t *Xrl = XRLE->repeatCounts;
+    uint8_t *Yrl = YRLE->repeatCounts;
 
     // stats to track
     int64_t matches = 0;
@@ -1585,7 +1585,7 @@ void printMEAAlignment2(RleString *X, RleString *Y, stList *alignedPairs) {
     fprintf(stderr, "          AlignmentIdentity: %f\n", calculateAlignIdentity(X, Y, alignedPairs));
 }
 
-void printMEAAlignment(char *X, char *Y, int64_t lX, int64_t lY, stList *alignedPairs, uint64_t *Xrl, uint64_t *Yrl) {
+void printMEAAlignment(char *X, char *Y, int64_t lX, int64_t lY, stList *alignedPairs, uint8_t *Xrl, uint8_t *Yrl) {
     if (stList_length(alignedPairs) == 0) {
         return;
     }
